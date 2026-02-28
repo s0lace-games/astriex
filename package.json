@@ -3,11 +3,9 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "start": "node index.js",
-    "postinstall": "node build.js"
+    "start": "node index.js"
   },
   "dependencies": {
-    "@titaniumnetwork-dev/ultraviolet": "1.0.10",
     "@tomphttp/bare-server-node": "2.0.1",
     "express": "^4.18.2"
   }
