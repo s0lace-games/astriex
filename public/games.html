@@ -13,8 +13,6 @@
       content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 200; opacity: 0.35;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
     }
-
-    /* NAV */
     .nav { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); display: flex; z-index: 300; background: #111; border: 1px solid #2a2a2a; padding: 0.5rem 0.6rem; gap: 0.25rem; }
     .nav-btn { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.3rem; width: 56px; height: 52px; background: transparent; border: none; cursor: pointer; color: #555; transition: color 0.15s, background 0.15s; text-decoration: none; position: relative; }
     .nav-btn:hover { color: var(--white); background: #1a1a1a; }
@@ -22,61 +20,44 @@
     .nav-btn.active::after { content: ''; position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; background: var(--white); border-radius: 50%; }
     .nav-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
     .nav-label { font-size: 0.45rem; letter-spacing: 0.1em; text-transform: uppercase; }
-
-    /* PAGE */
     .page { min-height: 100vh; padding: 3rem 2rem 8rem; max-width: 1200px; margin: 0 auto; }
     .page-header { margin-bottom: 2rem; animation: fade-up 0.6s ease both; }
     .page-title { font-family: 'Instrument Serif', serif; font-style: italic; font-size: clamp(2rem, 5vw, 3.5rem); letter-spacing: -0.02em; margin-bottom: 0.4rem; }
     .page-sub { font-size: 0.6rem; color: var(--gray); letter-spacing: 0.2em; text-transform: uppercase; }
-
-    /* CONTROLS */
-    .controls { display: flex; gap: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap; animation: fade-up 0.6s 0.1s ease both; align-items: center; }
-    .search-wrap { display: flex; flex: 1; min-width: 180px; max-width: 360px; border: 1px solid #2a2a2a; background: #111; transition: border-color 0.2s; }
+    .controls { display: flex; gap: 0.75rem; margin-bottom: 1.5rem; animation: fade-up 0.6s 0.1s ease both; }
+    .search-wrap { display: flex; flex: 1; max-width: 360px; border: 1px solid #2a2a2a; background: #111; transition: border-color 0.2s; }
     .search-wrap:focus-within { border-color: var(--white); }
     .search-wrap input { flex: 1; background: transparent; border: none; outline: none; color: var(--white); font-family: 'Space Mono', monospace; font-size: 0.75rem; padding: 0.65rem 1rem; caret-color: var(--white); }
     .search-wrap input::placeholder { color: #333; }
-    .cat-btn { font-family: 'Space Mono', monospace; font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.5rem 0.9rem; border: 1px solid #2a2a2a; background: transparent; color: #555; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
-    .cat-btn:hover, .cat-btn.active { border-color: var(--white); color: var(--white); background: #111; }
 
-    /* 6-COLUMN GRID */
-    .games-grid {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 1px;
-      background: #1a1a1a;
-      animation: fade-up 0.6s 0.2s ease both;
-    }
+    /* 6-COL GRID */
+    .games-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px; background: #1a1a1a; animation: fade-up 0.6s 0.2s ease both; }
     @media (max-width: 1100px) { .games-grid { grid-template-columns: repeat(5, 1fr); } }
     @media (max-width: 900px)  { .games-grid { grid-template-columns: repeat(4, 1fr); } }
     @media (max-width: 680px)  { .games-grid { grid-template-columns: repeat(3, 1fr); } }
     @media (max-width: 460px)  { .games-grid { grid-template-columns: repeat(2, 1fr); } }
 
     .game-card { background: var(--black); cursor: pointer; position: relative; overflow: hidden; transition: background 0.15s; }
-    .game-card:hover { background: #0f0f0f; }
     .game-card:hover .game-overlay { opacity: 1; }
-    .game-card:hover .game-thumb { filter: grayscale(0%) brightness(0.7); }
+    .game-card:hover .game-thumb { filter: grayscale(0%) brightness(0.65); }
     .game-thumb { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; filter: grayscale(40%); transition: filter 0.25s; }
     .game-no-thumb { width: 100%; aspect-ratio: 1; background: #0f0f0f; display: flex; align-items: center; justify-content: center; }
-    .game-no-thumb svg { width: 28px; height: 28px; stroke: #2a2a2a; fill: none; stroke-width: 1.5; }
-    .game-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.95) 50%, transparent 100%); opacity: 0; transition: opacity 0.2s; display: flex; flex-direction: column; justify-content: flex-end; padding: 0.6rem; }
-    .game-play { width: 28px; height: 28px; border: 1px solid rgba(255,255,255,0.5); display: flex; align-items: center; justify-content: center; margin-bottom: 0.4rem; }
-    .game-play svg { width: 10px; height: 10px; fill: white; stroke: none; }
+    .game-no-thumb svg { width: 28px; height: 28px; stroke: #2a2a2a; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    .game-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.92) 45%, transparent 100%); opacity: 0; transition: opacity 0.2s; display: flex; flex-direction: column; justify-content: flex-end; padding: 0.6rem; }
+    .game-play { width: 26px; height: 26px; border: 1px solid rgba(255,255,255,0.5); display: flex; align-items: center; justify-content: center; margin-bottom: 0.35rem; }
+    .game-play svg { width: 9px; height: 9px; fill: white; stroke: none; }
     .game-name { font-size: 0.55rem; letter-spacing: 0.05em; line-height: 1.3; color: var(--white); }
-    .game-cat-badge { position: absolute; top: 0.4rem; left: 0.4rem; font-size: 0.4rem; letter-spacing: 0.1em; text-transform: uppercase; background: rgba(0,0,0,0.85); color: #666; padding: 0.15rem 0.35rem; }
 
-    /* EMPTY STATE */
     .empty-state { grid-column: 1 / -1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; padding: 5rem 2rem; text-align: center; }
     .empty-title { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 1.8rem; color: #222; }
     .empty-sub { font-size: 0.55rem; color: #2a2a2a; letter-spacing: 0.2em; text-transform: uppercase; }
-    .empty-hint { font-size: 0.55rem; color: #333; margin-top: 0.5rem; line-height: 1.8; border: 1px dashed #1a1a1a; padding: 1rem 1.5rem; text-align: left; }
-    .empty-hint code { color: #555; font-family: 'Space Mono', monospace; }
+    .empty-hint { font-size: 0.55rem; color: #333; margin-top: 0.5rem; line-height: 1.9; border: 1px dashed #1a1a1a; padding: 1rem 1.5rem; text-align: left; }
+    .empty-hint code { color: #555; }
 
-    /* GAME MODAL */
     .modal { display: none; position: fixed; inset: 0; background: #000; z-index: 500; flex-direction: column; }
     .modal.open { display: flex; }
     .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1.25rem; border-bottom: 1px solid #1a1a1a; flex-shrink: 0; background: #0a0a0a; }
     .modal-title { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 1.1rem; }
-    .modal-cat { font-size: 0.5rem; color: var(--gray); letter-spacing: 0.15em; text-transform: uppercase; margin-top: 0.15rem; }
     .modal-close { background: transparent; border: 1px solid #2a2a2a; color: var(--white); font-family: 'Space Mono', monospace; font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.45rem 0.8rem; cursor: pointer; transition: all 0.15s; }
     .modal-close:hover { border-color: var(--white); }
     .modal-body { flex: 1; position: relative; background: #000; }
@@ -87,7 +68,6 @@
     .loader-dot:nth-child(2) { animation-delay: 0.2s; }
     .loader-dot:nth-child(3) { animation-delay: 0.4s; }
     @keyframes pulse { 0%,100%{opacity:0.2;transform:scale(0.8)}50%{opacity:1;transform:scale(1)} }
-
     .corner { position: fixed; font-size: 0.5rem; letter-spacing: 0.15em; text-transform: uppercase; color: #2a2a2a; }
     .corner.tl { top: 1.5rem; left: 1.5rem; }
     @keyframes fade-up { from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)} }
@@ -105,21 +85,15 @@
     <div class="search-wrap">
       <input id="search-input" type="text" placeholder="search games..." autocomplete="off" spellcheck="false" />
     </div>
-    <button class="cat-btn active" onclick="filterCat(this,'all')">All</button>
-    <div id="cat-btns"></div>
   </div>
 
   <div class="loader" id="loader"><div class="loader-dot"></div><div class="loader-dot"></div><div class="loader-dot"></div></div>
   <div class="games-grid" id="games-grid"></div>
 </div>
 
-<!-- Game Modal -->
 <div class="modal" id="game-modal">
   <div class="modal-header">
-    <div>
-      <div class="modal-title" id="modal-title"></div>
-      <div class="modal-cat" id="modal-cat"></div>
-    </div>
+    <div class="modal-title" id="modal-title"></div>
     <button class="modal-close" onclick="closeGame()">✕ Close</button>
   </div>
   <div class="modal-body">
@@ -136,13 +110,11 @@
 
 <script>
   let allGames = [];
-  let currentCat = "all";
 
   async function loadGames() {
     try {
-      const res = await fetch("games-list.json");
+      const res = await fetch("/games/games-list.json");
       allGames = await res.json();
-      buildCategoryBtns();
       renderGames(allGames);
       document.getElementById("controls").style.display = "flex";
     } catch(e) {
@@ -151,83 +123,37 @@
     }
   }
 
-  function buildCategoryBtns() {
-    const cats = [...new Set(allGames.map(g => g.category).filter(Boolean))];
-    const container = document.getElementById("cat-btns");
-    cats.forEach(cat => {
-      const btn = document.createElement("button");
-      btn.className = "cat-btn";
-      btn.textContent = cat;
-      btn.onclick = () => filterCat(btn, cat);
-      container.appendChild(btn);
-    });
-  }
-
-  function filterCat(btn, cat) {
-    document.querySelectorAll(".cat-btn").forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-    currentCat = cat;
-    const query = document.getElementById("search-input").value.trim().toLowerCase();
-    applyFilter(query, cat);
-  }
-
-  function applyFilter(query, cat) {
-    let filtered = allGames;
-    if (cat !== "all") filtered = filtered.filter(g => g.category === cat);
-    if (query) filtered = filtered.filter(g => g.title.toLowerCase().includes(query));
-    renderGames(filtered);
-  }
-
   function renderGames(games) {
     const grid = document.getElementById("games-grid");
     document.getElementById("loader").style.display = "none";
     grid.innerHTML = "";
 
-    if (!games.length) {
-      renderEmpty();
-      return;
-    }
+    if (!games.length) { renderEmpty(); return; }
 
     games.forEach((game, i) => {
       const card = document.createElement("div");
       card.className = "game-card";
       card.style.cssText = `animation:fade-up 0.4s ${i*0.03}s ease both`;
-
-      const thumbHtml = game.thumbnail
-        ? `<img class="game-thumb" src="${game.thumbnail}" alt="${game.title}" loading="lazy"/>`
-        : `<div class="game-no-thumb"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4M8 10v4"/><circle cx="15" cy="11" r="1" fill="currentColor"/><circle cx="17" cy="13" r="1" fill="currentColor"/></svg></div>`;
-
-      card.innerHTML = `
-        ${thumbHtml}
-        ${game.category ? `<div class="game-cat-badge">${game.category}</div>` : ""}
-        <div class="game-overlay">
-          <div class="game-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
-          <div class="game-name">${game.title}</div>
-        </div>`;
-
+      card.innerHTML = game.thumbnail
+        ? `<img class="game-thumb" src="${game.thumbnail}" alt="${game.title}" loading="lazy"/>
+           <div class="game-overlay"><div class="game-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div><div class="game-name">${game.title}</div></div>`
+        : `<div class="game-no-thumb"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4M8 10v4"/><circle cx="15" cy="11" r="1" fill="currentColor"/><circle cx="17" cy="13" r="1" fill="currentColor"/></svg></div>
+           <div class="game-overlay"><div class="game-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div><div class="game-name">${game.title}</div></div>`;
       card.addEventListener("click", () => openGame(game));
       grid.appendChild(card);
     });
   }
 
   function renderEmpty() {
-    const grid = document.getElementById("games-grid");
-    grid.innerHTML = `
+    document.getElementById("games-grid").innerHTML = `
       <div class="empty-state">
         <p class="empty-title">No games yet</p>
         <p class="empty-sub">Add games to get started</p>
-        <div class="empty-hint">
-          To add a game:<br><br>
-          1. Drop game files into <code>public/games/files/your-game/</code><br>
-          2. Add a thumbnail to <code>public/games/thumbnails/</code><br>
-          3. Add an entry to <code>public/games/games-list.json</code>
-        </div>
       </div>`;
   }
 
   function openGame(game) {
     document.getElementById("modal-title").textContent = game.title;
-    document.getElementById("modal-cat").textContent = game.category || "";
     document.getElementById("game-modal").classList.add("open");
     document.body.style.overflow = "hidden";
     document.getElementById("game-iframe").src = game.file;
@@ -239,8 +165,9 @@
     document.body.style.overflow = "";
   }
 
-  document.getElementById("search-input")?.addEventListener("input", e => {
-    applyFilter(e.target.value.trim().toLowerCase(), currentCat);
+  document.getElementById("search-input").addEventListener("input", e => {
+    const q = e.target.value.trim().toLowerCase();
+    renderGames(q ? allGames.filter(g => g.title.toLowerCase().includes(q)) : allGames);
   });
   document.addEventListener("keydown", e => { if (e.key === "Escape") closeGame(); });
 
