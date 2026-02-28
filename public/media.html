@@ -13,53 +13,63 @@
       content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 200; opacity: 0.35;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
     }
-
-    .nav { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); display: flex; z-index: 100; background: #111; border: 1px solid #2a2a2a; padding: 0.5rem 0.6rem; gap: 0.25rem; }
+    .nav { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); display: flex; z-index: 300; background: #111; border: 1px solid #2a2a2a; padding: 0.5rem 0.6rem; gap: 0.25rem; }
     .nav-btn { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.3rem; width: 56px; height: 52px; background: transparent; border: none; cursor: pointer; color: #555; transition: color 0.15s, background 0.15s; text-decoration: none; position: relative; }
     .nav-btn:hover { color: var(--white); background: #1a1a1a; }
     .nav-btn.active { color: var(--white); }
     .nav-btn.active::after { content: ''; position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; background: var(--white); border-radius: 50%; }
     .nav-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
     .nav-label { font-size: 0.45rem; letter-spacing: 0.1em; text-transform: uppercase; }
-
-    .page { min-height: 100vh; padding: 3rem 2rem 8rem; max-width: 1100px; margin: 0 auto; }
-    .page-header { margin-bottom: 2.5rem; animation: fade-up 0.6s ease both; }
+    .page { min-height: 100vh; padding: 3rem 2rem 8rem; max-width: 1200px; margin: 0 auto; }
+    .page-header { margin-bottom: 2rem; animation: fade-up 0.6s ease both; }
     .page-title { font-family: 'Instrument Serif', serif; font-style: italic; font-size: clamp(2rem, 5vw, 3.5rem); letter-spacing: -0.02em; margin-bottom: 0.4rem; }
     .page-sub { font-size: 0.6rem; color: var(--gray); letter-spacing: 0.2em; text-transform: uppercase; }
-
-    /* search bar for media */
-    .media-search { display: flex; width: 100%; max-width: 560px; border: 1px solid #2a2a2a; background: #111; margin-bottom: 2.5rem; transition: border-color 0.2s; animation: fade-up 0.6s 0.1s ease both; }
-    .media-search:focus-within { border-color: var(--white); }
-    .media-search input { flex: 1; background: transparent; border: none; outline: none; color: var(--white); font-family: 'Space Mono', monospace; font-size: 0.8rem; padding: 0.9rem 1.2rem; caret-color: var(--white); }
-    .media-search input::placeholder { color: #333; }
-    .media-search button { background: var(--white); color: var(--black); border: none; padding: 0 1.2rem; font-family: 'Space Mono', monospace; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: background 0.15s; }
-    .media-search button:hover { background: var(--gray); }
-
-    /* categories */
-    .categories { display: flex; gap: 0.5rem; margin-bottom: 2rem; flex-wrap: wrap; animation: fade-up 0.6s 0.15s ease both; }
-    .cat-btn { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.4rem 0.9rem; border: 1px solid #2a2a2a; background: transparent; color: #555; cursor: pointer; transition: all 0.15s; }
+    .controls { display: flex; gap: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap; animation: fade-up 0.6s 0.1s ease both; align-items: center; }
+    .search-wrap { display: flex; flex: 1; min-width: 200px; max-width: 400px; border: 1px solid #2a2a2a; background: #111; transition: border-color 0.2s; }
+    .search-wrap:focus-within { border-color: var(--white); }
+    .search-wrap input { flex: 1; background: transparent; border: none; outline: none; color: var(--white); font-family: 'Space Mono', monospace; font-size: 0.75rem; padding: 0.75rem 1rem; caret-color: var(--white); }
+    .search-wrap input::placeholder { color: #333; }
+    .search-wrap button { background: var(--white); color: var(--black); border: none; padding: 0 1rem; font-family: 'Space Mono', monospace; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: background 0.15s; }
+    .search-wrap button:hover { background: var(--gray); }
+    .cat-btn { font-family: 'Space Mono', monospace; font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.5rem 0.9rem; border: 1px solid #2a2a2a; background: transparent; color: #555; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
     .cat-btn:hover, .cat-btn.active { border-color: var(--white); color: var(--white); background: #111; }
-
-    /* media grid */
-    .media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1px; background: #1a1a1a; border: 1px solid #1a1a1a; animation: fade-up 0.6s 0.2s ease both; }
-    .media-card { background: var(--black); aspect-ratio: 16/9; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem; cursor: pointer; transition: background 0.15s; position: relative; }
-    .media-card:hover { background: #0f0f0f; }
-    .media-card-inner { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
-    .media-play { width: 36px; height: 36px; border: 1px solid #333; display: flex; align-items: center; justify-content: center; transition: border-color 0.15s; }
-    .media-card:hover .media-play { border-color: var(--white); }
-    .media-play svg { width: 14px; height: 14px; stroke: var(--gray); fill: none; stroke-width: 1.5; transition: stroke 0.15s; }
-    .media-card:hover .media-play svg { stroke: var(--white); }
-    .media-name { font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; color: #444; }
-    .media-tag { position: absolute; top: 0.5rem; left: 0.5rem; font-size: 0.45rem; letter-spacing: 0.1em; text-transform: uppercase; background: #1a1a1a; color: #555; padding: 0.15rem 0.4rem; }
-
-    .coming-soon { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; padding: 4rem 2rem; text-align: center; border: 1px dashed #2a2a2a; margin-top: 2rem; animation: fade-up 0.6s 0.25s ease both; }
-    .coming-soon-title { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 1.5rem; color: #333; }
-    .coming-soon-sub { font-size: 0.6rem; color: #2a2a2a; letter-spacing: 0.2em; text-transform: uppercase; }
-
+    .movies-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1px; background: #1a1a1a; animation: fade-up 0.6s 0.2s ease both; }
+    .movie-card { background: var(--black); cursor: pointer; transition: background 0.15s; position: relative; overflow: hidden; }
+    .movie-card:hover { background: #111; }
+    .movie-card:hover .movie-overlay { opacity: 1; }
+    .movie-poster { width: 100%; aspect-ratio: 2/3; object-fit: cover; display: block; filter: grayscale(30%); transition: filter 0.2s; }
+    .movie-card:hover .movie-poster { filter: grayscale(0%); }
+    .movie-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.95) 40%, transparent 100%); opacity: 0; transition: opacity 0.2s; display: flex; flex-direction: column; justify-content: flex-end; padding: 0.75rem; }
+    .movie-play { width: 32px; height: 32px; border: 1px solid rgba(255,255,255,0.6); display: flex; align-items: center; justify-content: center; margin-bottom: 0.5rem; }
+    .movie-play svg { width: 12px; height: 12px; }
+    .movie-title-overlay { font-size: 0.6rem; letter-spacing: 0.05em; line-height: 1.3; color: var(--white); }
+    .movie-year-overlay { font-size: 0.5rem; color: var(--gray); margin-top: 0.2rem; }
+    .movie-rating { position: absolute; top: 0.5rem; right: 0.5rem; font-size: 0.5rem; background: rgba(0,0,0,0.85); padding: 0.2rem 0.4rem; color: var(--gray); }
+    .movie-no-poster { width: 100%; aspect-ratio: 2/3; background: #0f0f0f; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem; padding: 1rem; }
+    .movie-no-poster span { font-size: 0.55rem; color: #333; text-align: center; letter-spacing: 0.05em; line-height: 1.4; }
+    .loader { display: flex; align-items: center; justify-content: center; padding: 4rem; gap: 0.5rem; }
+    .loader-dot { width: 6px; height: 6px; background: #333; border-radius: 50%; animation: pulse 1s ease infinite; }
+    .loader-dot:nth-child(2) { animation-delay: 0.2s; }
+    .loader-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes pulse { 0%,100%{opacity:0.2;transform:scale(0.8)}50%{opacity:1;transform:scale(1)} }
+    .pagination { display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-top: 2rem; padding-bottom: 2rem; }
+    .page-btn { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; padding: 0.5rem 0.9rem; border: 1px solid #2a2a2a; background: transparent; color: #555; cursor: pointer; transition: all 0.15s; }
+    .page-btn:hover:not(:disabled) { border-color: var(--white); color: var(--white); }
+    .page-btn:disabled { opacity: 0.2; cursor: not-allowed; }
+    .page-info { font-size: 0.55rem; color: #444; padding: 0 0.5rem; }
+    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.97); z-index: 500; flex-direction: column; }
+    .modal.open { display: flex; }
+    .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.5rem; border-bottom: 1px solid #1a1a1a; flex-shrink: 0; }
+    .modal-title { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 1.2rem; }
+    .modal-meta { font-size: 0.55rem; color: var(--gray); letter-spacing: 0.1em; margin-top: 0.2rem; }
+    .modal-close { background: transparent; border: 1px solid #2a2a2a; color: var(--white); font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.5rem 0.9rem; cursor: pointer; transition: all 0.15s; }
+    .modal-close:hover { border-color: var(--white); background: #111; }
+    .modal-body { flex: 1; position: relative; }
+    .player-iframe { width: 100%; height: 100%; border: none; display: block; }
+    .modal-loading { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 0.5rem; background: var(--black); }
     .corner { position: fixed; font-size: 0.5rem; letter-spacing: 0.15em; text-transform: uppercase; color: #2a2a2a; }
     .corner.tl { top: 1.5rem; left: 1.5rem; }
-
-    @keyframes fade-up { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fade-up { from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)} }
   </style>
 </head>
 <body>
@@ -68,35 +78,40 @@
 <div class="page">
   <div class="page-header">
     <h1 class="page-title">Media</h1>
-    <p class="page-sub">Stream anything, unblocked</p>
+    <p class="page-sub">Movies &amp; TV — Unblocked</p>
   </div>
 
-  <div class="media-search">
-    <input type="text" placeholder="search movies, shows, music..." autocomplete="off" spellcheck="false" />
-    <button>Search</button>
+  <div class="controls">
+    <div class="search-wrap">
+      <input id="search-input" type="text" placeholder="search movies & shows..." autocomplete="off" spellcheck="false" />
+      <button onclick="doSearch()">Go</button>
+    </div>
+    <button class="cat-btn active" onclick="switchTab(this,'movie')">Movies</button>
+    <button class="cat-btn" onclick="switchTab(this,'tv')">TV Shows</button>
+    <button class="cat-btn" onclick="switchTab(this,'trending')">Trending</button>
   </div>
 
-  <div class="categories">
-    <button class="cat-btn active">All</button>
-    <button class="cat-btn">Movies</button>
-    <button class="cat-btn">TV Shows</button>
-    <button class="cat-btn">Music</button>
-    <button class="cat-btn">Anime</button>
-    <button class="cat-btn">Live</button>
-  </div>
+  <div class="loader" id="loader"><div class="loader-dot"></div><div class="loader-dot"></div><div class="loader-dot"></div></div>
+  <div class="movies-grid" id="movies-grid"></div>
 
-  <div class="media-grid">
-    <div class="media-card"><div class="media-card-inner"><div class="media-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div><span class="media-name">Placeholder</span></div><span class="media-tag">Movie</span></div>
-    <div class="media-card"><div class="media-card-inner"><div class="media-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div><span class="media-name">Placeholder</span></div><span class="media-tag">Show</span></div>
-    <div class="media-card"><div class="media-card-inner"><div class="media-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div><span class="media-name">Placeholder</span></div><span class="media-tag">Anime</span></div>
-    <div class="media-card"><div class="media-card-inner"><div class="media-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div><span class="media-name">Placeholder</span></div><span class="media-tag">Music</span></div>
-    <div class="media-card"><div class="media-card-inner"><div class="media-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div><span class="media-name">Placeholder</span></div><span class="media-tag">Movie</span></div>
-    <div class="media-card"><div class="media-card-inner"><div class="media-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div><span class="media-name">Placeholder</span></div><span class="media-tag">Live</span></div>
+  <div class="pagination" id="pagination" style="display:none">
+    <button class="page-btn" id="prev-btn" onclick="changePage(-1)">← Prev</button>
+    <span class="page-info" id="page-info"></span>
+    <button class="page-btn" id="next-btn" onclick="changePage(1)">Next →</button>
   </div>
+</div>
 
-  <div class="coming-soon">
-    <p class="coming-soon-title">Media coming soon</p>
-    <p class="coming-soon-sub">Check back later</p>
+<div class="modal" id="player-modal">
+  <div class="modal-header">
+    <div>
+      <div class="modal-title" id="modal-title"></div>
+      <div class="modal-meta" id="modal-meta"></div>
+    </div>
+    <button class="modal-close" onclick="closePlayer()">✕ Close</button>
+  </div>
+  <div class="modal-body">
+    <div class="modal-loading" id="modal-loading"><div class="loader-dot"></div><div class="loader-dot"></div><div class="loader-dot"></div></div>
+    <iframe class="player-iframe" id="player-iframe" allowfullscreen allow="autoplay; fullscreen"></iframe>
   </div>
 </div>
 
@@ -107,13 +122,144 @@
   <a class="nav-btn" href="/settings.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg><span class="nav-label">Settings</span></a>
 </nav>
 
+<script src="/uv/uv.bundle.js"></script>
+<script src="/uv/uv.config.js"></script>
 <script>
-  document.querySelectorAll('.cat-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+  // ── PUT YOUR TMDB API KEY HERE ──
+  const API_KEY = "2d1351cf74f73892042699d0431b799a";
+  // ────────────────────────────────
+
+  const TMDB_BASE = "https://api.themoviedb.org/3";
+  const IMG_BASE  = "https://image.tmdb.org/t/p/w342";
+
+  let currentTab   = "movie";
+  let currentPage  = 1;
+  let totalPages   = 1;
+  let currentQuery = "";
+
+  function proxyUrl(url) {
+    if (typeof __uv$config !== "undefined") return __uv$config.prefix + __uv$config.encodeUrl(url);
+    return "/uv/service/" + encodeURIComponent(url);
+  }
+
+  async function fetchTMDB(path) {
+    const sep = path.includes("?") ? "&" : "?";
+    const res = await fetch(`${TMDB_BASE}${path}${sep}api_key=${API_KEY}`);
+    if (!res.ok) throw new Error("TMDB " + res.status);
+    return res.json();
+  }
+
+  async function loadContent() {
+    showLoader();
+    try {
+      let data;
+      if (currentQuery) {
+        data = await fetchTMDB(`/search/multi?query=${encodeURIComponent(currentQuery)}&page=${currentPage}&include_adult=false`);
+      } else if (currentTab === "trending") {
+        data = await fetchTMDB(`/trending/all/week?page=${currentPage}`);
+      } else {
+        data = await fetchTMDB(`/discover/${currentTab}?sort_by=popularity.desc&page=${currentPage}`);
+      }
+      totalPages = Math.min(data.total_pages || 1, 500);
+      renderGrid(data.results || []);
+      renderPagination();
+    } catch(e) {
+      document.getElementById("loader").style.display = "none";
+      document.getElementById("movies-grid").innerHTML =
+        `<div style="grid-column:1/-1;padding:3rem;text-align:center;font-size:0.65rem;color:#444">Error: ${e.message}</div>`;
+    }
+  }
+
+  function renderGrid(items) {
+    const grid = document.getElementById("movies-grid");
+    document.getElementById("loader").style.display = "none";
+    grid.innerHTML = "";
+    items.filter(i => i.media_type !== "person").forEach((item, idx) => {
+      const type  = item.media_type || currentTab;
+      const title = item.title || item.name || "Unknown";
+      const year  = (item.release_date || item.first_air_date || "").slice(0, 4);
+      const rating = item.vote_average ? item.vote_average.toFixed(1) : "";
+      const card = document.createElement("div");
+      card.className = "movie-card";
+      card.style.cssText = `animation:fade-up 0.4s ${idx*0.02}s ease both`;
+      if (item.poster_path) {
+        card.innerHTML = `
+          <img class="movie-poster" src="${IMG_BASE}${item.poster_path}" alt="${title}" loading="lazy"/>
+          ${rating ? `<div class="movie-rating">★ ${rating}</div>` : ""}
+          <div class="movie-overlay">
+            <div class="movie-play"><svg viewBox="0 0 24 24" fill="white" stroke="none"><polygon points="5,3 19,12 5,21"/></svg></div>
+            <div class="movie-title-overlay">${title}</div>
+            ${year ? `<div class="movie-year-overlay">${year}</div>` : ""}
+          </div>`;
+      } else {
+        card.innerHTML = `<div class="movie-no-poster"><span>${title}</span>${year?`<span>${year}</span>`:""}</div>`;
+      }
+      card.addEventListener("click", () => openPlayer(item.id, type, title, year, rating));
+      grid.appendChild(card);
     });
-  });
+    if (!grid.children.length) grid.innerHTML = `<div style="grid-column:1/-1;padding:3rem;text-align:center;font-size:0.65rem;color:#444">No results found.</div>`;
+  }
+
+  function openPlayer(tmdbId, type, title, year, rating) {
+    const cinemaUrl = type === "tv"
+      ? `https://cinemaos.tech/player/tv/${tmdbId}`
+      : `https://cinemaos.tech/player/${tmdbId}`;
+
+    document.getElementById("modal-title").textContent = title;
+    document.getElementById("modal-meta").textContent = [year, rating ? "★ "+rating : "", type==="tv"?"TV Show":"Movie"].filter(Boolean).join(" · ");
+    document.getElementById("modal-loading").style.display = "flex";
+    document.getElementById("player-modal").classList.add("open");
+    document.body.style.overflow = "hidden";
+
+    const iframe = document.getElementById("player-iframe");
+    iframe.onload = () => { document.getElementById("modal-loading").style.display = "none"; };
+    iframe.src = proxyUrl(cinemaUrl);
+  }
+
+  function closePlayer() {
+    document.getElementById("player-modal").classList.remove("open");
+    document.getElementById("player-iframe").src = "";
+    document.body.style.overflow = "";
+  }
+
+  function switchTab(btn, tab) {
+    document.querySelectorAll(".cat-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    currentTab = tab; currentPage = 1; currentQuery = "";
+    document.getElementById("search-input").value = "";
+    loadContent();
+  }
+
+  function doSearch() {
+    const q = document.getElementById("search-input").value.trim();
+    if (!q) return;
+    currentQuery = q; currentPage = 1; loadContent();
+  }
+
+  function changePage(dir) {
+    currentPage = Math.max(1, Math.min(totalPages, currentPage + dir));
+    loadContent();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function renderPagination() {
+    const el = document.getElementById("pagination");
+    el.style.display = "flex";
+    document.getElementById("page-info").textContent = `Page ${currentPage} of ${totalPages}`;
+    document.getElementById("prev-btn").disabled = currentPage <= 1;
+    document.getElementById("next-btn").disabled = currentPage >= totalPages;
+  }
+
+  function showLoader() {
+    document.getElementById("movies-grid").innerHTML = "";
+    document.getElementById("loader").style.display = "flex";
+    document.getElementById("pagination").style.display = "none";
+  }
+
+  document.getElementById("search-input").addEventListener("keydown", e => { if (e.key === "Enter") doSearch(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") closePlayer(); });
+
+  loadContent();
 </script>
 </body>
 </html>
