@@ -66,7 +66,6 @@
     .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 500; flex-direction: row; }
     .modal.open { display: flex; }
 
-    /* left: player */
     .modal-player { flex: 1; display: flex; flex-direction: column; min-width: 0; }
     .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1.25rem; border-bottom: 1px solid #1a1a1a; flex-shrink: 0; gap: 1rem; }
     .modal-info { flex: 1; min-width: 0; }
@@ -79,25 +78,24 @@
     .player-iframe { width: 100%; height: 100%; border: none; display: block; }
     .modal-loading { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 0.5rem; background: var(--black); z-index: 10; }
 
-    /* right: episode sidebar (TV only) */
+    /* ── EPISODE SIDEBAR ── */
     .episode-sidebar { width: 280px; flex-shrink: 0; border-left: 1px solid #1a1a1a; display: flex; flex-direction: column; background: #0a0a0a; }
     .episode-sidebar.hidden { display: none; }
     .sidebar-header { padding: 0.9rem 1rem; border-bottom: 1px solid #1a1a1a; flex-shrink: 0; }
-    .sidebar-title { font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray); margin-bottom: 0.6rem; }
+    .sidebar-label { font-size: 0.5rem; letter-spacing: 0.2em; text-transform: uppercase; color: #444; margin-bottom: 0.5rem; }
     .season-select { width: 100%; background: #111; border: 1px solid #2a2a2a; color: var(--white); font-family: 'Space Mono', monospace; font-size: 0.65rem; padding: 0.45rem 0.7rem; outline: none; cursor: pointer; transition: border-color 0.15s; }
     .season-select:focus { border-color: var(--white); }
     .season-select option { background: #111; }
-    .episode-list { flex: 1; overflow-y: auto; padding: 0.5rem 0; }
+    .episode-list { flex: 1; overflow-y: auto; }
     .episode-list::-webkit-scrollbar { width: 3px; }
-    .episode-list::-webkit-scrollbar-track { background: transparent; }
     .episode-list::-webkit-scrollbar-thumb { background: #2a2a2a; }
-    .ep-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.65rem 1rem; cursor: pointer; transition: background 0.15s; border-bottom: 1px solid #111; }
+    .ep-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.65rem 1rem; cursor: pointer; transition: background 0.15s; border-bottom: 1px solid #0f0f0f; }
     .ep-item:hover { background: #111; }
-    .ep-item.active { background: #151515; border-left: 2px solid var(--white); }
-    .ep-num { font-size: 0.55rem; color: #444; min-width: 24px; flex-shrink: 0; }
+    .ep-item.active { background: #141414; border-left: 2px solid var(--white); padding-left: calc(1rem - 2px); }
+    .ep-num { font-size: 0.5rem; color: #444; min-width: 28px; flex-shrink: 0; }
     .ep-info { flex: 1; min-width: 0; }
-    .ep-name { font-size: 0.6rem; color: var(--white); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .ep-air { font-size: 0.5rem; color: #444; margin-top: 0.15rem; }
+    .ep-name { font-size: 0.58rem; color: var(--white); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .ep-air { font-size: 0.48rem; color: #444; margin-top: 0.15rem; }
     .ep-play { width: 20px; height: 20px; border: 1px solid #2a2a2a; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: border-color 0.15s; }
     .ep-item:hover .ep-play, .ep-item.active .ep-play { border-color: var(--white); }
     .ep-play svg { width: 7px; height: 7px; fill: var(--white); stroke: none; }
@@ -149,17 +147,16 @@
     </div>
     <div class="modal-body">
       <div class="modal-loading" id="modal-loading"><div class="loader-dot"></div><div class="loader-dot"></div><div class="loader-dot"></div></div>
-      <iframe class="player-iframe" id="player-iframe" allowfullscreen allow="autoplay; fullscreen"></iframe>
+      <iframe class="player-iframe" id="player-iframe" allowfullscreen allow="fullscreen; picture-in-picture; encrypted-media"></iframe>
     </div>
   </div>
-  <!-- TV episode sidebar -->
   <div class="episode-sidebar hidden" id="episode-sidebar">
     <div class="sidebar-header">
-      <div class="sidebar-title">Episodes</div>
-      <select class="season-select" id="season-select" onchange="loadEpisodes()"></select>
+      <div class="sidebar-label">Season</div>
+      <select class="season-select" id="season-select" onchange="onSeasonChange()"></select>
     </div>
     <div class="episode-list" id="episode-list">
-      <div class="ep-loading">Loading episodes...</div>
+      <div class="ep-loading">Loading...</div>
     </div>
   </div>
 </div>
@@ -174,7 +171,10 @@
 <script src="/uv/uv.bundle.js"></script>
 <script src="/uv/uv.config.js"></script>
 <script>
+  // ── PUT YOUR TMDB API KEY HERE ──
   const API_KEY   = "2d1351cf74f73892042699d0431b799a";
+  // ────────────────────────────────
+
   const TMDB_BASE = "https://api.themoviedb.org/3";
   const IMG_BASE  = "https://image.tmdb.org/t/p/w342";
 
@@ -183,16 +183,19 @@
   let totalPages   = 1;
   let currentQuery = "";
 
-  // Current TV show state
+  // Active TV state
   let activeTmdbId  = null;
-  let activeType    = null;
   let activeSeason  = 1;
   let activeEpisode = 1;
-  let totalSeasons  = 1;
+  let activeTitle   = "";
 
-  function proxyUrl(url) {
-    if (typeof __uv$config !== "undefined") return __uv$config.prefix + __uv$config.encodeUrl(url);
-    return "/uv/service/" + encodeURIComponent(url);
+  // ── KEY INSIGHT FROM OLD CODE:
+  // cinemaOS URLs must NOT be XOR-encoded by UV — just use encodeURIComponent (plain percent-encoding)
+  // UV's XOR encoding is what was mangling "player/tv/" into "pna{ep/vv"
+  function cinemaProxy(url) {
+    // Use UV prefix but with plain percent-encoding, not XOR
+    const prefix = (typeof __uv$config !== "undefined") ? __uv$config.prefix : "/uv/service/";
+    return prefix + encodeURIComponent(url);
   }
 
   async function fetchTMDB(path) {
@@ -255,9 +258,9 @@
   // ── OPEN PLAYER ──
   async function openPlayer(tmdbId, type, title, year, rating) {
     activeTmdbId  = tmdbId;
-    activeType    = type;
     activeSeason  = 1;
     activeEpisode = 1;
+    activeTitle   = title;
 
     document.getElementById("modal-title").textContent = title;
     document.getElementById("modal-meta").textContent  = [year, rating ? "★ "+rating : "", type==="tv"?"TV Show":"Movie"].filter(Boolean).join(" · ");
@@ -267,45 +270,66 @@
 
     if (type === "tv") {
       document.getElementById("episode-sidebar").classList.remove("hidden");
+      document.getElementById("episode-list").innerHTML = '<div class="ep-loading">Loading seasons...</div>';
       await loadSeasons(tmdbId);
     } else {
       document.getElementById("episode-sidebar").classList.add("hidden");
-      playContent(tmdbId, "movie");
+      playMovie(tmdbId);
     }
   }
 
-  // ── LOAD SEASONS ──
+  // ── MOVIE ──
+  function playMovie(tmdbId) {
+    const url = `https://cinemaos.tech/player/${tmdbId}`;
+    loadIframe(cinemaProxy(url));
+  }
+
+  // ── LOAD SEASONS (filter out season 0 / specials, match old code) ──
   async function loadSeasons(tmdbId) {
     const sel = document.getElementById("season-select");
     sel.innerHTML = "";
     try {
-      const data = await fetchTMDB(`/tv/${tmdbId}`);
-      totalSeasons = data.number_of_seasons || 1;
-      for (let s = 1; s <= totalSeasons; s++) {
+      const data = await fetchTMDB(`/tv/${tmdbId}?language=en-US`);
+      const seasons = (data.seasons || [])
+        .filter(s => s.season_number > 0 && s.episode_count > 0)
+        .sort((a, b) => a.season_number - b.season_number);
+
+      seasons.forEach(s => {
         const opt = document.createElement("option");
-        opt.value = s;
-        opt.textContent = `Season ${s}`;
+        opt.value = s.season_number;
+        opt.textContent = `Season ${s.season_number}`;
         sel.appendChild(opt);
-      }
-      await loadEpisodes();
+      });
+
+      activeSeason = seasons[0]?.season_number || 1;
+      sel.value = activeSeason;
+      await loadEpisodes(activeSeason);
     } catch(e) {
-      document.getElementById("episode-list").innerHTML = `<div class="ep-loading">Failed to load seasons.</div>`;
+      document.getElementById("episode-list").innerHTML = `<div class="ep-loading">Failed to load.</div>`;
     }
   }
 
+  // ── SEASON CHANGE ──
+  async function onSeasonChange() {
+    activeSeason  = parseInt(document.getElementById("season-select").value);
+    activeEpisode = 1;
+    document.getElementById("episode-list").innerHTML = '<div class="ep-loading">Loading...</div>';
+    await loadEpisodes(activeSeason);
+    // auto-play ep 1 of new season
+    playTv(activeTmdbId, activeSeason, 1);
+  }
+
   // ── LOAD EPISODES ──
-  async function loadEpisodes() {
-    activeSeason = parseInt(document.getElementById("season-select").value);
+  async function loadEpisodes(seasonNum) {
     const list = document.getElementById("episode-list");
-    list.innerHTML = `<div class="ep-loading">Loading...</div>`;
     try {
-      const data = await fetchTMDB(`/tv/${activeTmdbId}/season/${activeSeason}`);
-      const eps  = data.episodes || [];
+      const data = await fetchTMDB(`/tv/${activeTmdbId}/season/${seasonNum}?language=en-US`);
+      const eps  = (data.episodes || []);
       list.innerHTML = "";
       eps.forEach(ep => {
         const div = document.createElement("div");
-        div.className = "ep-item" + (ep.episode_number === activeEpisode && activeSeason === activeSeason ? " active" : "");
-        div.id = `ep-${ep.episode_number}`;
+        div.className = "ep-item" + (ep.episode_number === activeEpisode ? " active" : "");
+        div.id = `ep-${seasonNum}-${ep.episode_number}`;
         div.innerHTML = `
           <span class="ep-num">E${String(ep.episode_number).padStart(2,"0")}</span>
           <div class="ep-info">
@@ -316,8 +340,9 @@
         div.addEventListener("click", () => selectEpisode(ep.episode_number));
         list.appendChild(div);
       });
-      // Auto-play episode 1
-      selectEpisode(1);
+      // scroll active into view
+      const activeEl = list.querySelector(".active");
+      if (activeEl) activeEl.scrollIntoView({ block: "nearest" });
     } catch(e) {
       list.innerHTML = `<div class="ep-loading">Failed to load episodes.</div>`;
     }
@@ -327,27 +352,24 @@
   function selectEpisode(epNum) {
     activeEpisode = epNum;
     document.querySelectorAll(".ep-item").forEach(el => el.classList.remove("active"));
-    const el = document.getElementById(`ep-${epNum}`);
+    const el = document.getElementById(`ep-${activeSeason}-${epNum}`);
     if (el) { el.classList.add("active"); el.scrollIntoView({ block: "nearest" }); }
-    playContent(activeTmdbId, "tv", activeSeason, epNum);
-    // Update title meta
+    playTv(activeTmdbId, activeSeason, epNum);
     document.getElementById("modal-meta").textContent =
-      [document.getElementById("modal-meta").textContent.split("·")[0].trim(),
-       `S${String(activeSeason).padStart(2,"0")}E${String(epNum).padStart(2,"0")}`].join(" · ");
+      `${activeTitle} · S${String(activeSeason).padStart(2,"0")}E${String(epNum).padStart(2,"0")}`;
   }
 
-  // ── PLAY CONTENT ──
-  function playContent(tmdbId, type, season, episode) {
-    let cinemaUrl;
-    if (type === "tv") {
-      cinemaUrl = `https://vidsrc.me/embed/tv?tmdb=${tmdbId}&season=${season}&episode=${episode}`;
-    } else {
-      cinemaUrl = `https://vidsrc.me/embed/movie?tmdb=${tmdbId}`;
-    }
+  // ── PLAY TV — exact same URL format as your old site ──
+  function playTv(tmdbId, season, episode) {
+    const url = `https://cinemaos.tech/player/${tmdbId}/${season}/${episode}`;
+    loadIframe(cinemaProxy(url));
+  }
+
+  function loadIframe(src) {
     document.getElementById("modal-loading").style.display = "flex";
     const iframe = document.getElementById("player-iframe");
     iframe.onload = () => { document.getElementById("modal-loading").style.display = "none"; };
-    iframe.src = proxyUrl(cinemaUrl);
+    iframe.src = src;
   }
 
   function closePlayer() {
