@@ -114,6 +114,7 @@
 <div class="page">
   <div class="page-header">
     <h1 class="page-title">Media</h1>
+    <p class="page-sub">Movies &amp; TV — Unblocked</p>
   </div>
   <div class="controls">
     <div class="search-wrap">
@@ -339,9 +340,9 @@
   function playContent(tmdbId, type, season, episode) {
     let cinemaUrl;
     if (type === "tv") {
-      cinemaUrl = `https://cinemaos.tech/player/tv/${tmdbId}/${season}/${episode}`;
+      cinemaUrl = `https://vidsrc.me/embed/tv?tmdb=${tmdbId}&season=${season}&episode=${episode}`;
     } else {
-      cinemaUrl = `https://cinemaos.tech/player/${tmdbId}`;
+      cinemaUrl = `https://vidsrc.me/embed/movie?tmdb=${tmdbId}`;
     }
     document.getElementById("modal-loading").style.display = "flex";
     const iframe = document.getElementById("player-iframe");
