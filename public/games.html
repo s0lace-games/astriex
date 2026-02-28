@@ -123,7 +123,7 @@
 
   async function loadGames() {
     try {
-      const res = await fetch("/games/games-list.json");
+      const res = await fetch("games-list.json");
       allGames = await res.json();
       renderGames(allGames);
       document.getElementById("controls").style.display = "flex";
