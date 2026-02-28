@@ -1,41 +1,63 @@
-// This runs as postinstall on Vercel - copies UV dist files to public/uv
-import { existsSync, mkdirSync, readdirSync, copyFileSync, statSync } from "fs";
+import { existsSync, mkdirSync, readdirSync, copyFileSync, statSync, createWriteStream } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
-import { createRequire } from "module";
+import https from "https";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const require = createRequire(import.meta.url);
-
 const dest = join(__dirname, "public/uv");
 mkdirSync(dest, { recursive: true });
 
-// Use require.resolve to find the package regardless of install location
-let pkgPath;
-try {
-  pkgPath = dirname(require.resolve("@titaniumnetwork-dev/ultraviolet/package.json"));
-} catch (e) {
-  console.error("ERROR: Could not find @titaniumnetwork-dev/ultraviolet:", e.message);
-  process.exit(1);
+function download(url, outPath) {
+  return new Promise((resolve, reject) => {
+    const follow = (u) => {
+      https.get(u, (res) => {
+        if (res.statusCode === 301 || res.statusCode === 302) {
+          return follow(res.headers.location);
+        }
+        const file = createWriteStream(outPath);
+        res.pipe(file);
+        file.on("finish", () => { file.close(); resolve(); });
+        file.on("error", reject);
+      }).on("error", reject);
+    };
+    follow(url);
+  });
 }
 
-console.log("Package found at:", pkgPath);
-
-// Find the dist directory
-const distPath = join(pkgPath, "dist");
-if (!existsSync(distPath)) {
-  console.log("No dist/ folder. Package contents:", readdirSync(pkgPath));
-  process.exit(1);
-}
-
-console.log("Dist contents:", readdirSync(distPath));
-
-for (const file of readdirSync(distPath)) {
-  const src = join(distPath, file);
-  if (statSync(src).isFile() && file.endsWith(".js")) {
-    copyFileSync(src, join(dest, file));
-    console.log("Copied:", file);
+function tryNodeModules() {
+  const bases = [
+    join(__dirname, "node_modules/@titaniumnetwork-dev/ultraviolet/dist"),
+    join(__dirname, "node_modules/@titaniumnetwork-dev/ultraviolet"),
+  ];
+  for (const base of bases) {
+    if (!existsSync(base)) continue;
+    const files = readdirSync(base);
+    if (files.includes("uv.bundle.js")) {
+      console.log("Found UV dist at:", base);
+      for (const f of files) {
+        const src = join(base, f);
+        if (statSync(src).isFile() && f.endsWith(".js")) {
+          copyFileSync(src, join(dest, f));
+          console.log("Copied:", f);
+        }
+      }
+      return true;
+    }
   }
+  return false;
 }
 
-console.log("public/uv now contains:", readdirSync(dest));
+async function main() {
+  if (!tryNodeModules()) {
+    console.log("Falling back to downloading from unpkg...");
+    const base = "https://unpkg.com/@titaniumnetwork-dev/ultraviolet@1.0.10/dist/";
+    for (const f of ["uv.bundle.js", "uv.handler.js", "uv.sw.js"]) {
+      console.log("Downloading:", f);
+      await download(base + f, join(dest, f));
+      console.log("Done:", f);
+    }
+  }
+  console.log("public/uv contents:", readdirSync(dest));
+}
+
+main().catch((e) => { console.error(e); process.exit(1); });
