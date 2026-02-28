@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Games — Astriex</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Instrument+Serif:ital@0;1&display=swap');
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --black: #0a0a0a; --white: #f5f5f0; --gray: #888; }
+    html, body { height: 100%; background: var(--black); color: var(--white); font-family: 'Space Mono', monospace; overflow-x: hidden; }
+    body::before {
+      content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 200; opacity: 0.35;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+    }
+
+    /* NAV */
+    .nav { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); display: flex; z-index: 100; background: #111; border: 1px solid #2a2a2a; padding: 0.5rem 0.6rem; gap: 0.25rem; }
+    .nav-btn { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.3rem; width: 56px; height: 52px; background: transparent; border: none; cursor: pointer; color: #555; transition: color 0.15s, background 0.15s; text-decoration: none; position: relative; }
+    .nav-btn:hover { color: var(--white); background: #1a1a1a; }
+    .nav-btn.active { color: var(--white); }
+    .nav-btn.active::after { content: ''; position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; background: var(--white); border-radius: 50%; }
+    .nav-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    .nav-label { font-size: 0.45rem; letter-spacing: 0.1em; text-transform: uppercase; }
+
+    /* PAGE */
+    .page { min-height: 100vh; padding: 3rem 2rem 8rem; max-width: 1100px; margin: 0 auto; }
+    .page-header { margin-bottom: 2.5rem; animation: fade-up 0.6s ease both; }
+    .page-title { font-family: 'Instrument Serif', serif; font-style: italic; font-size: clamp(2rem, 5vw, 3.5rem); letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+    .page-sub { font-size: 0.6rem; color: var(--gray); letter-spacing: 0.2em; text-transform: uppercase; }
+
+    /* PLACEHOLDER GRID */
+    .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1px; background: #1a1a1a; border: 1px solid #1a1a1a; }
+    .game-card { background: var(--black); aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.75rem; cursor: pointer; transition: background 0.15s; position: relative; overflow: hidden; animation: fade-up 0.5s ease both; }
+    .game-card:nth-child(1) { animation-delay: 0.05s; }
+    .game-card:nth-child(2) { animation-delay: 0.1s; }
+    .game-card:nth-child(3) { animation-delay: 0.15s; }
+    .game-card:nth-child(4) { animation-delay: 0.2s; }
+    .game-card:nth-child(5) { animation-delay: 0.25s; }
+    .game-card:nth-child(6) { animation-delay: 0.3s; }
+    .game-card:nth-child(7) { animation-delay: 0.35s; }
+    .game-card:nth-child(8) { animation-delay: 0.4s; }
+    .game-card:hover { background: #111; }
+    .game-card:hover .game-icon { transform: scale(1.1); }
+    .game-icon { font-size: 2rem; transition: transform 0.2s; filter: grayscale(1); }
+    .game-name { font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray); }
+    .game-tag { position: absolute; top: 0.6rem; right: 0.6rem; font-size: 0.45rem; letter-spacing: 0.1em; text-transform: uppercase; background: var(--white); color: var(--black); padding: 0.15rem 0.4rem; }
+
+    .coming-soon { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; padding: 4rem 2rem; text-align: center; border: 1px dashed #2a2a2a; margin-top: 2rem; animation: fade-up 0.6s 0.2s ease both; }
+    .coming-soon-title { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 1.5rem; color: #333; }
+    .coming-soon-sub { font-size: 0.6rem; color: #2a2a2a; letter-spacing: 0.2em; text-transform: uppercase; }
+
+    .corner { position: fixed; font-size: 0.5rem; letter-spacing: 0.15em; text-transform: uppercase; color: #2a2a2a; }
+    .corner.tl { top: 1.5rem; left: 1.5rem; }
+
+    @keyframes fade-up { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+<span class="corner tl">Astriex</span>
+
+<div class="page">
+  <div class="page-header">
+    <h1 class="page-title">Games</h1>
+  </div>
+
+  <div class="games-grid">
+    <div class="game-card"><span class="game-icon">🎮</span><span class="game-name">Placeholder</span><span class="game-tag">Soon</span></div>
+    <div class="game-card"><span class="game-icon">🕹️</span><span class="game-name">Placeholder</span><span class="game-tag">Soon</span></div>
+    <div class="game-card"><span class="game-icon">👾</span><span class="game-name">Placeholder</span><span class="game-tag">Soon</span></div>
+    <div class="game-card"><span class="game-icon">🎲</span><span class="game-name">Placeholder</span><span class="game-tag">Soon</span></div>
+    <div class="game-card"><span class="game-icon">🏆</span><span class="game-name">Placeholder</span><span class="game-tag">Soon</span></div>
+    <div class="game-card"><span class="game-icon">⚔️</span><span class="game-name">Placeholder</span><span class="game-tag">Soon</span></div>
+    <div class="game-card"><span class="game-icon">🚀</span><span class="game-name">Placeholder</span><span class="game-tag">Soon</span></div>
+    <div class="game-card"><span class="game-icon">🎯</span><span class="game-name">Placeholder</span><span class="game-tag">Soon</span></div>
+  </div>
+
+  <div class="coming-soon">
+    <p class="coming-soon-title">Games coming soon</p>
+    <p class="coming-soon-sub">Check back later</p>
+  </div>
+</div>
+
+<nav class="nav">
+  <a class="nav-btn" href="/index.html" title="Home">
+    <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>
+    <span class="nav-label">Home</span>
+  </a>
+  <a class="nav-btn active" href="/games.html" title="Games">
+    <svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4M8 10v4"/><circle cx="15" cy="11" r="1" fill="currentColor"/><circle cx="17" cy="13" r="1" fill="currentColor"/></svg>
+    <span class="nav-label">Games</span>
+  </a>
+  <a class="nav-btn" href="/media.html" title="Media">
+    <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+    <span class="nav-label">Media</span>
+  </a>
+  <a class="nav-btn" href="/settings.html" title="Settings">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+    <span class="nav-label">Settings</span>
+  </a>
+</nav>
+</body>
+</html>
