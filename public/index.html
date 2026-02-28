@@ -52,11 +52,15 @@
   <div id="status">loading...</div>
 </div>
 
-<!-- must load bundle before config -->
 <script src="/uv/uv.bundle.js"></script>
 <script src="/uv/uv.config.js"></script>
 <script>
   const status = document.getElementById("status");
+
+  // Hardcoded to match uv.config.js — SW at /uv/ can only control /uv/*
+  const UV_PREFIX = "/uv/service/";
+  const SW_PATH   = "/uv/sw.js";
+  const SW_SCOPE  = "/uv/service/";
 
   function navigate(url) {
     if (!url) return;
@@ -65,7 +69,10 @@
         ? "https://" + url
         : "https://www.google.com/search?q=" + encodeURIComponent(url);
     }
-    location.href = __uv$config.prefix + __uv$config.encodeUrl(url);
+    // Use __uv$config if loaded, else fall back to hardcoded prefix
+    const prefix = (typeof __uv$config !== "undefined") ? __uv$config.prefix : UV_PREFIX;
+    const encode = (typeof __uv$config !== "undefined") ? __uv$config.encodeUrl : (x => encodeURIComponent(x));
+    location.href = prefix + encode(url);
   }
 
   function setInput(url) {
@@ -80,12 +87,19 @@
     if (e.key === "Enter") navigate(document.getElementById("url-input").value.trim());
   });
 
-  // SW lives at /uv/sw.js — scope /uv/service/ is valid (same path prefix)
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker
-      .register("/uv/sw.js", { scope: __uv$config.prefix })
-      .then(() => { status.textContent = "ready."; })
-      .catch((e) => { status.textContent = "sw error: " + e.message; console.error(e); });
+      .register(SW_PATH, { scope: SW_SCOPE })
+      .then((reg) => {
+        status.textContent = "ready.";
+        console.log("SW registered, scope:", reg.scope);
+      })
+      .catch((e) => {
+        status.textContent = "sw error: " + e.message;
+        console.error(e);
+      });
+  } else {
+    status.textContent = "service workers not supported.";
   }
 </script>
 </body>
