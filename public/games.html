@@ -99,7 +99,6 @@
 <div class="page">
   <div class="page-header">
     <h1 class="page-title">Games</h1>
-    <p class="page-sub">Unblocked — Play anything</p>
   </div>
 
   <div class="controls" id="controls" style="display:none">
@@ -141,7 +140,7 @@
 
   async function loadGames() {
     try {
-      const res = await fetch("/games/games-list.json");
+      const res = await fetch("games-list.json");
       allGames = await res.json();
       buildCategoryBtns();
       renderGames(allGames);
