@@ -193,9 +193,10 @@
   // cinemaOS URLs must NOT be XOR-encoded by UV — just use encodeURIComponent (plain percent-encoding)
   // UV's XOR encoding is what was mangling "player/tv/" into "pna{ep/vv"
   function cinemaProxy(url) {
-    // Use UV prefix but with plain percent-encoding, not XOR
-    const prefix = (typeof __uv$config !== "undefined") ? __uv$config.prefix : "/uv/service/";
-    return prefix + encodeURIComponent(url);
+    if (typeof __uv$config !== "undefined") {
+      return __uv$config.prefix + __uv$config.encodeUrl(url);
+    }
+    return "/uv/service/" + encodeURIComponent(url);
   }
 
   async function fetchTMDB(path) {
@@ -366,10 +367,12 @@
   }
 
   function loadIframe(src) {
+    if (!src) return;
     document.getElementById("modal-loading").style.display = "flex";
     const iframe = document.getElementById("player-iframe");
     iframe.onload = () => { document.getElementById("modal-loading").style.display = "none"; };
-    iframe.src = src;
+    // Small delay so UV service worker is ready
+    setTimeout(() => { iframe.src = src; }, 50);
   }
 
   function closePlayer() {
