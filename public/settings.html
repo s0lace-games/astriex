@@ -7,14 +7,12 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Instrument+Serif:ital@0;1&display=swap');
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root { --black: #0a0a0a; --white: #f5f5f0; --gray: #888; }
+    :root { --black: #0a0a0a; --white: #f5f5f0; --gray: #888; --dim: #1a1a1a; --border: #2a2a2a; }
     html, body { height: 100%; background: var(--black); color: var(--white); font-family: 'Space Mono', monospace; overflow-x: hidden; }
-    body::before {
-      content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 200; opacity: 0.35;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
-    }
+    body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 200; opacity: 0.35; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E"); }
 
-    .nav { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); display: flex; z-index: 100; background: #111; border: 1px solid #2a2a2a; padding: 0.5rem 0.6rem; gap: 0.25rem; }
+    /* NAV */
+    .nav { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); display: flex; z-index: 300; background: #111; border: 1px solid var(--border); padding: 0.5rem 0.6rem; gap: 0.25rem; }
     .nav-btn { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.3rem; width: 56px; height: 52px; background: transparent; border: none; cursor: pointer; color: #555; transition: color 0.15s, background 0.15s; text-decoration: none; position: relative; }
     .nav-btn:hover { color: var(--white); background: #1a1a1a; }
     .nav-btn.active { color: var(--white); }
@@ -22,53 +20,85 @@
     .nav-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
     .nav-label { font-size: 0.45rem; letter-spacing: 0.1em; text-transform: uppercase; }
 
-    .page { min-height: 100vh; padding: 3rem 2rem 8rem; max-width: 640px; margin: 0 auto; }
-    .page-header { margin-bottom: 2.5rem; animation: fade-up 0.6s ease both; }
+    /* PAGE */
+    .page { min-height: 100vh; padding: 3rem 2rem 8rem; max-width: 700px; margin: 0 auto; }
+    .page-header { margin-bottom: 3rem; animation: fade-up 0.6s ease both; }
     .page-title { font-family: 'Instrument Serif', serif; font-style: italic; font-size: clamp(2rem, 5vw, 3.5rem); letter-spacing: -0.02em; margin-bottom: 0.4rem; }
     .page-sub { font-size: 0.6rem; color: var(--gray); letter-spacing: 0.2em; text-transform: uppercase; }
 
-    /* settings sections */
-    .section { margin-bottom: 2.5rem; animation: fade-up 0.6s ease both; }
+    /* SECTIONS */
+    .section { margin-bottom: 2.5rem; animation: fade-up 0.5s ease both; }
     .section:nth-child(2) { animation-delay: 0.05s; }
-    .section:nth-child(3) { animation-delay: 0.1s; }
+    .section:nth-child(3) { animation-delay: 0.10s; }
     .section:nth-child(4) { animation-delay: 0.15s; }
-    .section:nth-child(5) { animation-delay: 0.2s; }
-    .section-title { font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: #444; margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid #1a1a1a; }
+    .section:nth-child(5) { animation-delay: 0.20s; }
+    .section:nth-child(6) { animation-delay: 0.25s; }
+    .section:nth-child(7) { animation-delay: 0.30s; }
+    .section:nth-child(8) { animation-delay: 0.35s; }
+    .section-label { font-size: 0.5rem; letter-spacing: 0.25em; text-transform: uppercase; color: #444; margin-bottom: 0.6rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--dim); }
 
-    .setting-row { display: flex; align-items: center; justify-content: space-between; padding: 0.9rem 0; border-bottom: 1px solid #111; }
-    .setting-row:last-child { border-bottom: none; }
-    .setting-info { display: flex; flex-direction: column; gap: 0.25rem; }
-    .setting-name { font-size: 0.75rem; color: var(--white); }
-    .setting-desc { font-size: 0.55rem; color: #444; letter-spacing: 0.05em; }
+    /* ROWS */
+    .row { display: flex; align-items: center; justify-content: space-between; padding: 0.85rem 0; border-bottom: 1px solid #111; gap: 1rem; }
+    .row:last-child { border-bottom: none; }
+    .row-info { display: flex; flex-direction: column; gap: 0.25rem; }
+    .row-name { font-size: 0.72rem; color: var(--white); }
+    .row-desc { font-size: 0.52rem; color: #444; letter-spacing: 0.03em; line-height: 1.5; }
+    .row-control { flex-shrink: 0; }
 
-    /* toggle */
-    .toggle { position: relative; width: 36px; height: 20px; cursor: pointer; }
+    /* TOGGLE */
+    .toggle { position: relative; width: 40px; height: 22px; cursor: pointer; display: block; }
     .toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
-    .toggle-track { position: absolute; inset: 0; background: #222; border: 1px solid #333; transition: all 0.2s; }
-    .toggle input:checked + .toggle-track { background: var(--white); border-color: var(--white); }
-    .toggle-thumb { position: absolute; top: 3px; left: 3px; width: 12px; height: 12px; background: #555; transition: all 0.2s; }
-    .toggle input:checked + .toggle-track + .toggle-thumb,
-    .toggle input:checked ~ .toggle-thumb { background: var(--black); transform: translateX(16px); }
+    .toggle-track { position: absolute; inset: 0; background: #1a1a1a; border: 1px solid var(--border); transition: all 0.2s; }
+    .toggle-thumb { position: absolute; top: 4px; left: 4px; width: 12px; height: 12px; background: #444; transition: all 0.2s; pointer-events: none; }
+    .toggle input:checked ~ .toggle-track { background: var(--white); border-color: var(--white); }
+    .toggle input:checked ~ .toggle-thumb { background: var(--black); transform: translateX(18px); }
 
-    /* select */
-    .setting-select { background: #111; border: 1px solid #2a2a2a; color: var(--white); font-family: 'Space Mono', monospace; font-size: 0.65rem; padding: 0.4rem 0.7rem; cursor: pointer; outline: none; transition: border-color 0.15s; }
-    .setting-select:hover, .setting-select:focus { border-color: var(--white); }
-    .setting-select option { background: #111; }
+    /* SELECT */
+    .ctrl-select { background: #111; border: 1px solid var(--border); color: var(--white); font-family: 'Space Mono', monospace; font-size: 0.62rem; padding: 0.45rem 0.7rem; outline: none; cursor: pointer; transition: border-color 0.15s; min-width: 160px; }
+    .ctrl-select:hover, .ctrl-select:focus { border-color: var(--white); }
+    .ctrl-select option { background: #111; }
 
-    /* input */
-    .setting-input { background: #111; border: 1px solid #2a2a2a; color: var(--white); font-family: 'Space Mono', monospace; font-size: 0.65rem; padding: 0.4rem 0.7rem; outline: none; transition: border-color 0.15s; width: 200px; }
-    .setting-input:focus { border-color: var(--white); }
+    /* INPUT */
+    .ctrl-input { background: #111; border: 1px solid var(--border); color: var(--white); font-family: 'Space Mono', monospace; font-size: 0.65rem; padding: 0.45rem 0.8rem; outline: none; transition: border-color 0.15s; width: 220px; }
+    .ctrl-input:focus { border-color: var(--white); }
 
-    /* version badge */
-    .version-info { display: flex; flex-direction: column; gap: 0.5rem; padding: 1rem; background: #0f0f0f; border: 1px solid #1a1a1a; }
-    .version-row { display: flex; justify-content: space-between; }
-    .version-key { font-size: 0.6rem; color: #444; letter-spacing: 0.1em; }
-    .version-val { font-size: 0.6rem; color: #666; }
+    /* BUTTONS */
+    .ctrl-btn { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.5rem 1rem; border: 1px solid var(--border); background: transparent; color: #888; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+    .ctrl-btn:hover { border-color: var(--white); color: var(--white); }
+    .ctrl-btn.danger { border-color: #3a1a1a; color: #884444; }
+    .ctrl-btn.danger:hover { border-color: #cc4444; color: #cc4444; }
+    .ctrl-btn.primary { background: var(--white); color: var(--black); border-color: var(--white); }
+    .ctrl-btn.primary:hover { background: var(--gray); border-color: var(--gray); }
+
+    /* PANIC KEY DISPLAY */
+    .key-display { display: flex; align-items: center; gap: 0.5rem; }
+    .key-badge { font-size: 0.6rem; background: #111; border: 1px solid var(--border); padding: 0.3rem 0.6rem; letter-spacing: 0.1em; color: var(--white); min-width: 40px; text-align: center; }
+    .key-record-btn { font-family: 'Space Mono', monospace; font-size: 0.55rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.35rem 0.7rem; border: 1px solid var(--border); background: transparent; color: #555; cursor: pointer; transition: all 0.15s; }
+    .key-record-btn:hover, .key-record-btn.recording { border-color: var(--white); color: var(--white); background: #111; }
+    .key-record-btn.recording { animation: blink 0.8s ease infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+    /* THEME SWATCHES */
+    .theme-row { display: flex; gap: 0.5rem; flex-wrap: wrap; padding: 0.85rem 0; }
+    .theme-swatch { width: 36px; height: 36px; border: 2px solid transparent; cursor: pointer; transition: border-color 0.15s, transform 0.15s; position: relative; }
+    .theme-swatch:hover { transform: scale(1.1); }
+    .theme-swatch.active { border-color: var(--white); }
+    .theme-swatch.active::after { content: '✓'; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; color: var(--white); text-shadow: 0 0 4px #000; }
+
+    /* STATUS FLASH */
+    .status-flash { font-size: 0.55rem; color: #555; letter-spacing: 0.1em; height: 1rem; transition: color 0.3s; margin-top: 0.5rem; }
+    .status-flash.ok { color: #44aa66; }
+    .status-flash.err { color: #cc4444; }
+
+    /* ABOUT BLOCK */
+    .about-block { background: #0d0d0d; border: 1px solid var(--dim); padding: 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+    .about-row { display: flex; justify-content: space-between; }
+    .about-key { font-size: 0.55rem; color: #444; }
+    .about-val { font-size: 0.55rem; color: #666; }
 
     .corner { position: fixed; font-size: 0.5rem; letter-spacing: 0.15em; text-transform: uppercase; color: #2a2a2a; }
     .corner.tl { top: 1.5rem; left: 1.5rem; }
-
-    @keyframes fade-up { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fade-up { from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)} }
   </style>
 </head>
 <body>
@@ -80,47 +110,200 @@
     <p class="page-sub">Configure Astriex</p>
   </div>
 
+  <!-- SEARCH ENGINE -->
   <div class="section">
-    <p class="section-title">Proxy</p>
-    <div class="setting-row">
-      <div class="setting-info"><span class="setting-name">Bare Server URL</span><span class="setting-desc">The bare server used for proxying</span></div>
-      <input class="setting-input" type="text" id="bare-url" placeholder="https://..." />
-    </div>
-    <div class="setting-row">
-      <div class="setting-info"><span class="setting-name">Search Engine</span><span class="setting-desc">Default search for queries</span></div>
-      <select class="setting-select" id="search-engine">
-        <option value="https://www.google.com/search?q=">Google</option>
-        <option value="https://duckduckgo.com/?q=">DuckDuckGo</option>
-        <option value="https://search.brave.com/search?q=">Brave</option>
-        <option value="https://www.bing.com/search?q=">Bing</option>
-      </select>
+    <p class="section-label">Search Engine</p>
+    <div class="row">
+      <div class="row-info">
+        <span class="row-name">Default Search</span>
+        <span class="row-desc">Used when you type a non-URL into the proxy bar</span>
+      </div>
+      <div class="row-control">
+        <select class="ctrl-select" id="search-engine">
+          <option value="https://www.google.com/search?q=">Google</option>
+          <option value="https://duckduckgo.com/?q=">DuckDuckGo</option>
+          <option value="https://search.brave.com/search?q=">Brave</option>
+          <option value="https://www.bing.com/search?q=">Bing</option>
+          <option value="https://search.yahoo.com/search?p=">Yahoo</option>
+        </select>
+      </div>
     </div>
   </div>
 
+  <!-- THEMES -->
   <div class="section">
-    <p class="section-title">Appearance</p>
-    <div class="setting-row">
-      <div class="setting-info"><span class="setting-name">Tab Cloak</span><span class="setting-desc">Disguise the browser tab</span></div>
-      <label class="toggle">
-        <input type="checkbox" id="tab-cloak" />
-        <div class="toggle-track"></div>
-        <div class="toggle-thumb"></div>
-      </label>
+    <p class="section-label">Theme</p>
+    <div class="row" style="border-bottom:none; padding-bottom:0;">
+      <div class="row-info">
+        <span class="row-name">Accent Color</span>
+        <span class="row-desc">Tints the nav active indicator and highlights</span>
+      </div>
     </div>
-    <div class="setting-row">
-      <div class="setting-info"><span class="setting-name">Cloak Title</span><span class="setting-desc">Custom tab title when cloaked</span></div>
-      <input class="setting-input" type="text" id="cloak-title" placeholder="Google Classroom" />
+    <div class="theme-row" id="theme-swatches">
+      <div class="theme-swatch active" data-theme="default" style="background:#f5f5f0;" title="Default"></div>
+      <div class="theme-swatch" data-theme="red"     style="background:#cc4444;" title="Red"></div>
+      <div class="theme-swatch" data-theme="amber"   style="background:#d4942a;" title="Amber"></div>
+      <div class="theme-swatch" data-theme="green"   style="background:#44aa66;" title="Green"></div>
+      <div class="theme-swatch" data-theme="blue"    style="background:#4488cc;" title="Blue"></div>
+      <div class="theme-swatch" data-theme="purple"  style="background:#8844cc;" title="Purple"></div>
+      <div class="theme-swatch" data-theme="pink"    style="background:#cc4488;" title="Pink"></div>
     </div>
   </div>
 
+  <!-- TAB CLOAKING -->
   <div class="section">
-    <p class="section-title">About</p>
-    <div class="version-info">
-      <div class="version-row"><span class="version-key">Version</span><span class="version-val">1.0.0</span></div>
-      <div class="version-row"><span class="version-key">UV Version</span><span class="version-val">1.0.10</span></div>
-      <div class="version-row"><span class="version-key">Status</span><span class="version-val" id="sw-status">checking...</span></div>
+    <p class="section-label">Tab Cloaking</p>
+    <div class="row">
+      <div class="row-info">
+        <span class="row-name">Enable Tab Cloak</span>
+        <span class="row-desc">Disguise this tab's title and favicon</span>
+      </div>
+      <div class="row-control">
+        <label class="toggle">
+          <input type="checkbox" id="cloak-enabled" />
+          <div class="toggle-track"></div>
+          <div class="toggle-thumb"></div>
+        </label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="row-info">
+        <span class="row-name">Cloak Title</span>
+        <span class="row-desc">What the tab will show as its title</span>
+      </div>
+      <div class="row-control">
+        <input class="ctrl-input" id="cloak-title" type="text" placeholder="Google Classroom" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="row-info">
+        <span class="row-name">Cloak Favicon</span>
+        <span class="row-desc">URL to use as the favicon image</span>
+      </div>
+      <div class="row-control">
+        <select class="ctrl-select" id="cloak-favicon">
+          <option value="">— none —</option>
+          <option value="https://www.google.com/favicon.ico">Google</option>
+          <option value="https://ssl.gstatic.com/classroom/favicon.png">Google Classroom</option>
+          <option value="https://www.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png">Google Drive</option>
+          <option value="https://www.gstatic.com/images/branding/product/1x/docs_2020q4_32dp.png">Google Docs</option>
+          <option value="https://www.bing.com/favicon.ico">Bing</option>
+        </select>
+      </div>
     </div>
   </div>
+
+  <!-- PANIC BUTTON -->
+  <div class="section">
+    <p class="section-label">Panic Button</p>
+    <div class="row">
+      <div class="row-info">
+        <span class="row-name">Enable Panic Key</span>
+        <span class="row-desc">Press a key to instantly navigate away</span>
+      </div>
+      <div class="row-control">
+        <label class="toggle">
+          <input type="checkbox" id="panic-enabled" />
+          <div class="toggle-track"></div>
+          <div class="toggle-thumb"></div>
+        </label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="row-info">
+        <span class="row-name">Panic Key</span>
+        <span class="row-desc">Click "Record" then press any key to set it</span>
+      </div>
+      <div class="row-control">
+        <div class="key-display">
+          <span class="key-badge" id="panic-key-display">—</span>
+          <button class="key-record-btn" id="panic-record-btn" onclick="startRecording()">Record</button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="row-info">
+        <span class="row-name">Panic URL</span>
+        <span class="row-desc">Where to go when panic key is pressed</span>
+      </div>
+      <div class="row-control">
+        <select class="ctrl-select" id="panic-url">
+          <option value="https://classroom.google.com">Google Classroom</option>
+          <option value="https://www.google.com">Google</option>
+          <option value="https://docs.google.com">Google Docs</option>
+          <option value="https://drive.google.com">Google Drive</option>
+          <option value="https://www.bing.com">Bing</option>
+          <option value="custom">Custom...</option>
+        </select>
+      </div>
+    </div>
+    <div class="row" id="panic-custom-row" style="display:none">
+      <div class="row-info">
+        <span class="row-name">Custom Panic URL</span>
+      </div>
+      <div class="row-control">
+        <input class="ctrl-input" id="panic-custom-url" type="text" placeholder="https://..." />
+      </div>
+    </div>
+  </div>
+
+  <!-- ANTI CLOSE -->
+  <div class="section">
+    <p class="section-label">Anti Close</p>
+    <div class="row">
+      <div class="row-info">
+        <span class="row-name">Prevent Tab Close</span>
+        <span class="row-desc">Shows a "Leave site?" dialog when closing the tab</span>
+      </div>
+      <div class="row-control">
+        <label class="toggle">
+          <input type="checkbox" id="anti-close" />
+          <div class="toggle-track"></div>
+          <div class="toggle-thumb"></div>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- LAUNCH IN ABOUT:BLANK -->
+  <div class="section">
+    <p class="section-label">Stealth Launch</p>
+    <div class="row">
+      <div class="row-info">
+        <span class="row-name">Launch in about:blank</span>
+        <span class="row-desc">Opens Astriex inside an about:blank tab to hide the URL</span>
+      </div>
+      <div class="row-control">
+        <button class="ctrl-btn" onclick="launchAboutBlank()">Launch</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="row-info">
+        <span class="row-name">about:blank Cloak</span>
+        <span class="row-desc">Auto-open in about:blank every time</span>
+      </div>
+      <div class="row-control">
+        <label class="toggle">
+          <input type="checkbox" id="always-blank" />
+          <div class="toggle-track"></div>
+          <div class="toggle-thumb"></div>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- GAMES DATA -->
+
+  <!-- ABOUT -->
+  <div class="section">
+    <p class="section-label">About</p>
+    <div class="about-block">
+      <div class="about-row"><span class="about-key">Version</span><span class="about-val">1.0.0</span></div>
+      <div class="about-row"><span class="about-key">UV Version</span><span class="about-val">1.0.10</span></div>
+      <div class="about-row"><span class="about-key">Service Worker</span><span class="about-val" id="sw-status">checking...</span></div>
+    </div>
+  </div>
+
 </div>
 
 <nav class="nav">
@@ -131,26 +314,242 @@
 </nav>
 
 <script>
-  // SW status
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.getRegistration("/uv/service/").then(reg => {
-      document.getElementById("sw-status").textContent = reg ? "active" : "not registered";
-    });
+  // ── STORAGE HELPERS ──
+  const S = {
+    get: (k, def) => { try { const v = localStorage.getItem(k); return v === null ? def : JSON.parse(v); } catch { return def; } },
+    set: (k, v) => localStorage.setItem(k, JSON.stringify(v))
+  };
+
+  // ── LOAD ALL SETTINGS ──
+  function loadSettings() {
+    // Search engine
+    document.getElementById("search-engine").value = S.get("astriex_search", "https://www.google.com/search?q=");
+
+    // Tab cloak
+    document.getElementById("cloak-enabled").checked = S.get("astriex_cloak_enabled", false);
+    document.getElementById("cloak-title").value     = S.get("astriex_cloak_title", "");
+    document.getElementById("cloak-favicon").value   = S.get("astriex_cloak_favicon", "");
+
+    // Panic
+    document.getElementById("panic-enabled").checked = S.get("astriex_panic_enabled", false);
+    document.getElementById("panic-url").value        = S.get("astriex_panic_url", "https://classroom.google.com");
+    const panicKey = S.get("astriex_panic_key", "");
+    document.getElementById("panic-key-display").textContent = panicKey || "—";
+    document.getElementById("panic-custom-url").value = S.get("astriex_panic_custom_url", "");
+
+    // Anti close
+    document.getElementById("anti-close").checked = S.get("astriex_anti_close", false);
+
+    // Always blank
+    document.getElementById("always-blank").checked = S.get("astriex_always_blank", false);
+
+    // Theme
+    const theme = S.get("astriex_theme", "default");
+    document.querySelectorAll(".theme-swatch").forEach(s => s.classList.toggle("active", s.dataset.theme === theme));
+    applyTheme(theme);
+
+    // Panic custom url row
+    toggleCustomPanicRow();
+
+    // SW status
+    checkSW();
+
+    // Apply active settings
+    applyCloak();
+    applyAntiClose();
+    applyAlwaysBlank();
   }
 
-  // Tab cloak
-  const cloakToggle = document.getElementById("tab-cloak");
-  const cloakTitle = document.getElementById("cloak-title");
-  cloakToggle.addEventListener("change", () => {
-    if (cloakToggle.checked && cloakTitle.value) {
-      document.title = cloakTitle.value;
+  // ── SAVE ON CHANGE (auto-save everything) ──
+  document.getElementById("search-engine").addEventListener("change", e => S.set("astriex_search", e.target.value));
+
+  document.getElementById("cloak-enabled").addEventListener("change", e => {
+    S.set("astriex_cloak_enabled", e.target.checked);
+    applyCloak();
+  });
+  document.getElementById("cloak-title").addEventListener("input", e => {
+    S.set("astriex_cloak_title", e.target.value);
+    if (S.get("astriex_cloak_enabled")) applyCloak();
+  });
+  document.getElementById("cloak-favicon").addEventListener("change", e => {
+    S.set("astriex_cloak_favicon", e.target.value);
+    if (S.get("astriex_cloak_enabled")) applyCloak();
+  });
+
+  document.getElementById("panic-enabled").addEventListener("change", e => S.set("astriex_panic_enabled", e.target.checked));
+  document.getElementById("panic-url").addEventListener("change", e => {
+    S.set("astriex_panic_url", e.target.value);
+    toggleCustomPanicRow();
+  });
+  document.getElementById("panic-custom-url").addEventListener("input", e => S.set("astriex_panic_custom_url", e.target.value));
+
+  document.getElementById("anti-close").addEventListener("change", e => {
+    S.set("astriex_anti_close", e.target.checked);
+    applyAntiClose();
+  });
+
+  document.getElementById("always-blank").addEventListener("change", e => {
+    S.set("astriex_always_blank", e.target.checked);
+    applyAlwaysBlank();
+  });
+
+  // ── THEME ──
+  const THEME_COLORS = {
+    default: "#f5f5f0", red: "#cc4444", amber: "#d4942a",
+    green: "#44aa66", blue: "#4488cc", purple: "#8844cc", pink: "#cc4488"
+  };
+
+  document.querySelectorAll(".theme-swatch").forEach(swatch => {
+    swatch.addEventListener("click", () => {
+      const theme = swatch.dataset.theme;
+      S.set("astriex_theme", theme);
+      document.querySelectorAll(".theme-swatch").forEach(s => s.classList.remove("active"));
+      swatch.classList.add("active");
+      applyTheme(theme);
+    });
+  });
+
+  function applyTheme(theme) {
+    const color = THEME_COLORS[theme] || THEME_COLORS.default;
+    document.documentElement.style.setProperty("--accent", color);
+    // Update nav active dot color across all pages via localStorage
+    // (each page reads astriex_theme on load)
+  }
+
+  // ── TAB CLOAK ──
+  function applyCloak() {
+    const enabled = S.get("astriex_cloak_enabled", false);
+    const title   = S.get("astriex_cloak_title", "");
+    const favicon = S.get("astriex_cloak_favicon", "");
+    if (enabled) {
+      if (title) document.title = title;
+      if (favicon) {
+        let link = document.querySelector("link[rel*='icon']") || document.createElement("link");
+        link.type = "image/x-icon";
+        link.rel  = "shortcut icon";
+        link.href = favicon;
+        document.head.appendChild(link);
+      }
     } else {
       document.title = "Settings — Astriex";
     }
+  }
+
+  // ── PANIC KEY ──
+  let recording = false;
+
+  function startRecording() {
+    recording = true;
+    const btn = document.getElementById("panic-record-btn");
+    btn.textContent = "Press key...";
+    btn.classList.add("recording");
+  }
+
+  document.addEventListener("keydown", e => {
+    if (recording) {
+      e.preventDefault();
+      const key = e.key === " " ? "Space" : e.key;
+      S.set("astriex_panic_key", key);
+      document.getElementById("panic-key-display").textContent = key;
+      recording = false;
+      const btn = document.getElementById("panic-record-btn");
+      btn.textContent = "Record";
+      btn.classList.remove("recording");
+      return;
+    }
+    // Panic trigger
+    if (S.get("astriex_panic_enabled", false)) {
+      const savedKey = S.get("astriex_panic_key", "");
+      if (savedKey && e.key === savedKey) {
+        const url = S.get("astriex_panic_url", "https://classroom.google.com");
+        const dest = url === "custom" ? S.get("astriex_panic_custom_url", "https://www.google.com") : url;
+        window.location.replace(dest);
+      }
+    }
   });
-  cloakTitle.addEventListener("input", () => {
-    if (cloakToggle.checked) document.title = cloakTitle.value || "Settings — Astriex";
-  });
+
+  function toggleCustomPanicRow() {
+    const val = document.getElementById("panic-url").value;
+    document.getElementById("panic-custom-row").style.display = val === "custom" ? "flex" : "none";
+  }
+
+  // ── ANTI CLOSE ──
+  let antiCloseHandler = null;
+
+  function applyAntiClose() {
+    if (antiCloseHandler) { window.removeEventListener("beforeunload", antiCloseHandler); antiCloseHandler = null; }
+    if (S.get("astriex_anti_close", false)) {
+      antiCloseHandler = e => { e.preventDefault(); e.returnValue = ""; };
+      window.addEventListener("beforeunload", antiCloseHandler);
+    }
+  }
+
+  // ── LAUNCH IN ABOUT:BLANK ──
+  function launchAboutBlank() {
+    const w = window.open("about:blank", "_blank");
+    if (!w) { alert("Pop-up blocked! Allow pop-ups for this site."); return; }
+    const html = `<!DOCTYPE html><html><head><title>${S.get("astriex_cloak_title","") || "Astriex"}</title></head><body style="margin:0;padding:0;overflow:hidden;background:#000"><iframe src="${location.origin}/index.html" style="width:100vw;height:100vh;border:none;display:block" allowfullscreen></iframe></body></html>`;
+    w.document.open();
+    w.document.write(html);
+    w.document.close();
+  }
+
+  function applyAlwaysBlank() {
+    // Store flag — index.html reads it and auto-launches
+    // (index.html should check S.get("astriex_always_blank") and call launchAboutBlank on load)
+  }
+
+  // ── GAMES EXPORT ──
+  async function exportGames() {
+    try {
+      const res  = await fetch("/games/games-list.json");
+      const data = await res.json();
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement("a");
+      a.href     = url; a.download = "games-list.json"; a.click();
+      URL.revokeObjectURL(url);
+      flash("games-status", "Exported successfully.", "ok");
+    } catch(e) {
+      flash("games-status", "Export failed: " + e.message, "err");
+    }
+  }
+
+  // ── GAMES IMPORT ──
+  async function importGames(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    try {
+      const text = await file.text();
+      const data = JSON.parse(text);
+      if (!Array.isArray(data)) throw new Error("Invalid format — must be an array.");
+      // Merge with localStorage cache (actual file merge requires server — save to localStorage as override)
+      S.set("astriex_games_override", data);
+      flash("games-status", `Imported ${data.length} game(s). Reload games page to apply.`, "ok");
+    } catch(e) {
+      flash("games-status", "Import failed: " + e.message, "err");
+    }
+    event.target.value = "";
+  }
+
+  // ── SERVICE WORKER ──
+  function checkSW() {
+    if (!("serviceWorker" in navigator)) { document.getElementById("sw-status").textContent = "not supported"; return; }
+    navigator.serviceWorker.getRegistration("/uv/service/").then(reg => {
+      document.getElementById("sw-status").textContent = reg ? "active ✓" : "not registered";
+    });
+  }
+
+  // ── FLASH HELPER ──
+  function flash(id, msg, type) {
+    const el = document.getElementById(id);
+    el.textContent = msg;
+    el.className = "status-flash " + type;
+    setTimeout(() => { el.textContent = ""; el.className = "status-flash"; }, 4000);
+  }
+
+  // ── INIT ──
+  loadSettings();
 </script>
 </body>
 </html>
