@@ -105,7 +105,7 @@
   function navigate(url) {
     if (!url) return;
     if (!url.startsWith("http://") && !url.startsWith("https://")) {
-      url = url.includes(".") && !url.includes(" ") ? "https://" + url : "https://www.google.com/search?q=" + encodeURIComponent(url);
+      url = url.includes(".") && !url.includes(" ") ? "https://" + url : (window.ASTRIEX_SEARCH || "https://www.google.com/search?q=") + encodeURIComponent(url);
     }
     const prefix = typeof __uv$config !== "undefined" ? __uv$config.prefix : UV_PREFIX;
     const encode = typeof __uv$config !== "undefined" ? __uv$config.encodeUrl : encodeURIComponent;
@@ -120,6 +120,37 @@
       .then(() => { status.textContent = "ready."; })
       .catch((e) => { status.textContent = "sw error: " + e.message; });
   }
+
+  // ── GLOBAL SETTINGS (runs on every page) ──
+  (function() {
+    function sg(k, def) { try { const v = localStorage.getItem(k); return v === null ? def : JSON.parse(v); } catch { return def; } }
+
+    // Tab cloak
+    if (sg("astriex_cloak_enabled", false)) {
+      const t = sg("astriex_cloak_title", ""); const f = sg("astriex_cloak_favicon", "");
+      if (t) document.title = t;
+      if (f) { let l = document.querySelector("link[rel*='icon']") || document.createElement("link"); l.rel = "shortcut icon"; l.href = f; document.head.appendChild(l); }
+    }
+
+    // Anti close
+    if (sg("astriex_anti_close", false)) {
+      window.addEventListener("beforeunload", e => { e.preventDefault(); e.returnValue = ""; });
+    }
+
+    // Panic key
+    document.addEventListener("keydown", e => {
+      if (sg("astriex_panic_enabled", false)) {
+        const k = sg("astriex_panic_key", "");
+        if (k && e.key === k) {
+          const u = sg("astriex_panic_url", "https://classroom.google.com");
+          window.location.replace(u === "custom" ? sg("astriex_panic_custom_url", "https://www.google.com") : u);
+        }
+      }
+    });
+
+    // Search engine — expose for proxy bar
+    window.ASTRIEX_SEARCH = sg("astriex_search", "https://www.google.com/search?q=");
+  })();
 </script>
 </body>
 </html>
