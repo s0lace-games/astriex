@@ -81,7 +81,6 @@
 <div class="page">
   <div class="page-header">
     <h1 class="page-title">Games</h1>
-    <p class="page-sub">Unblocked — Play anything</p>
   </div>
 
   <div class="controls" id="controls" style="display:none">
@@ -123,6 +122,8 @@
   }
 
   async function loadGames() {
+    const override = (() => { try { const v = localStorage.getItem('astriex_games_override'); return v ? JSON.parse(v) : null; } catch { return null; } })();
+    if (override) { allGames = override; renderGames(allGames); document.getElementById('controls').style.display = 'flex'; return; }
     try {
       const res = await fetch("/games/games-list.json");
       allGames = await res.json();
@@ -188,6 +189,29 @@
   document.addEventListener("keydown", e => { if (e.key === "Escape") closeGame(); });
 
   loadGames();
+</script>
+<script>
+  // ── GLOBAL SETTINGS ──
+  (function() {
+    function sg(k, def) { try { const v = localStorage.getItem(k); return v === null ? def : JSON.parse(v); } catch { return def; } }
+    if (sg("astriex_cloak_enabled", false)) {
+      const t = sg("astriex_cloak_title", ""); const f = sg("astriex_cloak_favicon", "");
+      if (t) document.title = t;
+      if (f) { let l = document.querySelector("link[rel*='icon']") || document.createElement("link"); l.rel = "shortcut icon"; l.href = f; document.head.appendChild(l); }
+    }
+    if (sg("astriex_anti_close", false)) {
+      window.addEventListener("beforeunload", e => { e.preventDefault(); e.returnValue = ""; });
+    }
+    document.addEventListener("keydown", e => {
+      if (sg("astriex_panic_enabled", false)) {
+        const k = sg("astriex_panic_key", "");
+        if (k && e.key === k) {
+          const u = sg("astriex_panic_url", "https://classroom.google.com");
+          window.location.replace(u === "custom" ? sg("astriex_panic_custom_url", "https://www.google.com") : u);
+        }
+      }
+    });
+  })();
 </script>
 </body>
 </html>
