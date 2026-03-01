@@ -4,71 +4,61 @@
     "title": "Drive Mad",
     "thumbnail": "/games/thumbs/drive-mad.jpg",
     "file": "/games/files/drive-mad/index.html"
-  }
-
+  },
   {
     "id": "gta-vice-city",
     "title": "GTA Vice City",
     "thumbnail": "/games/thumbs/vice-city.jpg",
     "file": "/games/files/vice-city/index.html"
-  }
-
+  },
   {
     "id": "idle-breakout",
     "title": "Idle Breakout",
     "thumbnail": "/games/thumbs/idle-breakout.jpg",
     "file": "/games/files/idle-breakout/index.html"
-  }
-
+  },
   {
     "id": "level-devil",
     "title": "Level Devil",
     "thumbnail": "/games/thumbs/levil-devil.jpg",
     "file": "/games/files/level-devil/index.html"
-  }
-
+  },
   {
     "id": "retro-bowl",
     "title": "Retro Bowl",
     "thumbnail": "/games/thumbs/retrobowl.jpg",
     "file": "/games/files/retrobowl/index.html"
-  }
-  
+  },
   {
     "id": "retro-bowl-college",
     "title": "Retro Bowl College",
     "thumbnail": "/games/thumbs/retrobowlcollege.jpg",
     "file": "/games/files/retrobowlcollege/index.html"
-  }
-
+  },
   {
     "id": "slope",
     "title": "Slope",
     "thumbnail": "/games/thumbs/slope.jpg",
     "file": "/games/files/slope/index.html"
-  }
-
+  },
   {
     "id": "tanuki-sunset",
     "title": "Tanuki Sunset",
     "thumbnail": "/games/thumbs/tanuki-sunset.jpg",
     "file": "/games/files/tanuki-sunset/index.html"
-  }
-
+  },
   {
     "id": "space-wave",
     "title": "Space Wave",
     "thumbnail": "/games/thumbs/space-wave.jpg",
     "file": "/games/files/space-wave/index.html"
-  }
-
+  },
   {
     "id": "tunnel-rush",
     "title": "Tunnel Rush",
     "thumbnail": "/games/thumbs/tunnel-rush.jpg",
     "file": "/games/files/tunnel-rush/index.html"
-  }
-
+  },
   {
     "id": "ultrakill",
     "title": "ULTRAKILL",
