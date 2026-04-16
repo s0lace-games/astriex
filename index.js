@@ -123,6 +123,14 @@ app.get("/api/games", async (_req, res) => {
 
 // Public read-only endpoint — forks call this to get approved community games
 // No auth needed, CORS open so any domain can fetch it
+// Handle CORS preflight for all /api routes
+app.options("/api/*", (_req, res) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
+  res.sendStatus(204);
+});
+
 app.get("/api/community-games", async (_req, res) => {
   res.header("Access-Control-Allow-Origin", "*");
   try {
@@ -132,6 +140,7 @@ app.get("/api/community-games", async (_req, res) => {
 });
 
 app.post("/api/submit", async (req, res) => {
+  res.header("Access-Control-Allow-Origin", "*");
   try {
     const { title, url, blobContent, thumbnail } = req.body;
     if (!title) return res.status(400).json({ error: "title required" });
