@@ -102,7 +102,7 @@
   // ── EXPOSE GLOBALS ──
   window.ASTRIEX_SEARCH         = load("astriex_search", "https://duckduckgo.com/?q=");
   // Central API — always points to main instance regardless of where the fork is hosted
-  window.ASTRIEX_CENTRAL_API = "https://niche-astriex.vercel.app/api/community-games";
+  window.ASTRIEX_CENTRAL_API = "https://astriex.vercel.app/api/community-games";
   window.ASTRIEX_GAMES_OVERRIDE = load("astriex_games_override", null);
 
 })();
