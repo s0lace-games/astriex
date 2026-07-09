@@ -271,7 +271,7 @@
       // Falls back gracefully if unreachable
       let community = [];
       try {
-        const centralUrl = "https://astriex.vercel.app/api/community-games";
+        const centralUrl = "https://s0lace-v2.vercel.app/api/community-games";
         const res = await fetch(centralUrl);
         if (res.ok) community = await res.json();
       } catch {}
